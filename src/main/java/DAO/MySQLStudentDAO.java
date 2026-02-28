@@ -68,6 +68,7 @@ public class MySQLStudentDAO implements StudentDAO{
 			
 			ResultSet resultSet=ps.executeQuery();
 			while(resultSet.next()) {
+				System.out.println("----------------------------------------");
 				System.out.println("Student Id:"+resultSet.getInt("id"));
 				System.out.println("Student Name:"+resultSet.getString("name"));
 				System.out.println("Student Email Id:"+resultSet.getString("email"));
@@ -81,14 +82,18 @@ public class MySQLStudentDAO implements StudentDAO{
 
 	@Override
 	public void updateStudent(Connection connection,long mobileNo, String email) {
-		String update="update student_details set email=? where mobileNo=?";
+		String update="update student_details set email=? where mobile_number=?";
 		
 		try {
 			PreparedStatement ps=connection.prepareStatement(update);
-			ps.setLong(1,mobileNo);
-			ps.setString(2,email);
-			ps.executeUpdate();
-			
+			ps.setString(1,email);
+			ps.setLong(2,mobileNo);
+			int rows=ps.executeUpdate();
+			if (rows > 0) {
+	            System.out.println("Student updated successfully!");
+	        } else {
+	            System.out.println("No student found with this mobile number.");
+	        }
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -99,8 +104,13 @@ public class MySQLStudentDAO implements StudentDAO{
 		String delete="delete from student_details where id=?";
 		try {
 			PreparedStatement ps=connection.prepareStatement(delete);
-			//ps.setString(1,email);
-			ps.executeUpdate();
+			ps.setInt(1,id);
+			int r=ps.executeUpdate();
+			if(r>0) {
+				System.out.println("Student deleted successfully");
+			} else {
+				System.out.println("No student found with this ID");
+			}
 			
 		} catch(SQLException e) {
 			e.printStackTrace();

@@ -61,14 +61,14 @@ public class App
                         break;
 
                     case 3:
-                        System.out.println("Enter Student ID to update:");
-                        int updateId = sc.nextInt();
+                        System.out.println("Enter Student mobile number to update:");
+                        long updateMobileNo = sc.nextLong();
                         sc.nextLine();
 
                         System.out.println("Enter new email:");
                         String newEmail = sc.nextLine();
 
-                        student.updateStudent(connection, updateId, newEmail);
+                        student.updateStudent(connection, updateMobileNo, newEmail);
                         break;
 
                     case 4:
